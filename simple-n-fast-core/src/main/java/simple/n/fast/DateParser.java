@@ -2,11 +2,9 @@ package simple.n.fast;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeSet;
-import java.util.WeakHashMap;
 
 public final class DateParser {
 
@@ -22,23 +20,11 @@ public final class DateParser {
 
 	static int[] charToInt = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
-	static Map<Long, Integer> offsetCache = new WeakHashMap<>();
-
 	protected DateParser() {
 	}
 
 	public static void refreshDefaultTimeZone() {
 		DEFAULT_TIME_ZONE = TimeZone.getDefault();
-		offsetCache.clear();
-	}
-
-	private static int getOffset(final long dateMillis) {
-		Integer offset = offsetCache.get(dateMillis);
-		if (offset == null) {
-			offset = DEFAULT_TIME_ZONE.getOffset(dateMillis);
-			offsetCache.put(dateMillis, offset);
-		}
-		return offset;
 	}
 
 	public static Date parseISODate(final String pDate) {
@@ -47,7 +33,7 @@ public final class DateParser {
 
 	public static long parseISODateToMillis(final String pDate) {
 		final long dateMillis = internalParseISODateToMillis(pDate);
-		return dateMillis - getOffset(dateMillis);
+		return dateMillis - DEFAULT_TIME_ZONE.getOffset(dateMillis);
 	}
 
 	public static long internalParseISODateToMillis(final String pDate) {
@@ -64,11 +50,16 @@ public final class DateParser {
 	}
 
 	public static long parseISODateTimeToMillis(final String pDateTime) {
+		final long dateTimeMillis = internalParseISODateTimeToMillis(pDateTime);
+		return dateTimeMillis - DEFAULT_TIME_ZONE.getOffset(dateTimeMillis);
+	}
+
+	private static long internalParseISODateTimeToMillis(final String pDateTime) {
 		final long dateTimeMillis = internalParseISODateToMillis(pDateTime)
 				+ (((charToInt[pDateTime.charAt(11)] * 10) + charToInt[pDateTime.charAt(12)]) * 3600000)
 				+ (((charToInt[pDateTime.charAt(14)] * 10) + charToInt[pDateTime.charAt(15)]) * 60000)
 				+ (((charToInt[pDateTime.charAt(17)] * 10) + charToInt[pDateTime.charAt(18)]) * 1000);
-		return dateTimeMillis - getOffset(dateTimeMillis);
+		return dateTimeMillis;
 	}
 
 	public static Date parseISODateTimeWithOffset(final String pDateTimeWithOffset) {
