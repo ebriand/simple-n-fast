@@ -21,7 +21,7 @@ public class DateParserTest {
 
 	private final static String DATE_PATTERN = "yyyy-MM-dd";
 
-	private final static String DATE_TIME_PATTERN = "yyyy-MM-dd'T'kk:mm:ss";
+	private final static String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
 	private TimeZone defaultTimeZone;
 
