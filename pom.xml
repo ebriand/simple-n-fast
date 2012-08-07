@@ -6,7 +6,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<modules>
-		<module>simple-n-fast</module>
+		<module>simple-n-fast-core</module>
 		<module>simple-n-fast-generators</module>
 		<module>simple-n-fast-performances</module>
 	</modules>
