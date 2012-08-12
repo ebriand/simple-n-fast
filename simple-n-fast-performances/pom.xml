@@ -14,12 +14,22 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.caliper</groupId>
+			<artifactId>caliper</artifactId>
+			<version>0.5-rc1</version>
 		</dependency>
 	</dependencies>
 </project>
