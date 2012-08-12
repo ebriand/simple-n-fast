@@ -1,4 +1,4 @@
-package simple.n.fast;
+package simple.n.fast.date;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -64,8 +64,9 @@ public class DateFormatter {
         } else {
             dayString = days[(int) (dayMillis / (86400000L))];
         }
-        final int hour = (int) (dayMillis % 86400000L) / 3600000;
-        final int minuteMillis = (int) (dayMillis % 86400000L) % 3600000;
+        long hourMillis = dayMillis % 86400000L;
+        final int hour = (int) hourMillis / 3600000;
+        final int minuteMillis = (int) hourMillis % 3600000;
         final int minute = minuteMillis / 60000;
         final int second = (minuteMillis % 60000) / 1000;
         return new StringBuilder(years[year]).append(dayString).append('T').append(hoursAndminutesAndSeconds[hour]).append(':').append(hoursAndminutesAndSeconds[minute]).append(':').append(hoursAndminutesAndSeconds[second]).toString();

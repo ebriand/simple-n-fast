@@ -10,8 +10,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import simple.n.fast.DateFormatter;
-import simple.n.fast.DateParser;
+import simple.n.fast.date.DateFormatter;
+import simple.n.fast.date.DateParser;
 
 public class DateFormatterPerformances {
 
@@ -71,7 +71,7 @@ public class DateFormatterPerformances {
         final long stopJodaTimeFixDate = System.currentTimeMillis();
         LOGGER.info("joda-time - fix date: " + (stopJodaTimeFixDate - startJodaTimeFixDate) + "ms, average: " + ((stopJodaTimeFixDate - startJodaTimeFixDate) / (numberOfLoops * 1D)));
 
-        final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'kk:mm:ss");
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
         final long startJodaTimeRandomDate = System.currentTimeMillis();
         for (final Date randomDate : randomDates) {
             dateTimeFormatter.print(new DateTime(randomDate));
@@ -86,28 +86,28 @@ public class DateFormatterPerformances {
         final String monthString = (month < 10) ? "0" + month : Integer.toString(month);
         int day = 0;
         switch (month) {
-        case 1:
-        case 3:
-        case 5:
-        case 7:
-        case 8:
-        case 10:
-        case 12:
-            day = random.nextInt(31) + 1;
-            break;
-        case 4:
-        case 6:
-        case 9:
-        case 11:
-            day = random.nextInt(30) + 1;
-            break;
-        case 2:
-            if (((year & 3) == 0) && (((year % 100) != 0) || ((year % 400) == 0))) {
-                day = random.nextInt(29) + 1;
-            } else {
-                day = random.nextInt(28) + 1;
-            }
-            break;
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+                day = random.nextInt(31) + 1;
+                break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                day = random.nextInt(30) + 1;
+                break;
+            case 2:
+                if (((year & 3) == 0) && (((year % 100) != 0) || ((year % 400) == 0))) {
+                    day = random.nextInt(29) + 1;
+                } else {
+                    day = random.nextInt(28) + 1;
+                }
+                break;
         }
         final String dayString = (day < 10) ? "0" + day : Integer.toString(day);
         final int hour = random.nextInt(20) + 4;

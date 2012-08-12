@@ -8,7 +8,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import simple.n.fast.DateParser;
+import simple.n.fast.date.DateParser;
 
 public class DateParserPerformances {
 
@@ -66,7 +66,7 @@ public class DateParserPerformances {
         final long stopJodaTimeFixDate = System.currentTimeMillis();
         LOGGER.info("joda-time - fix date: " + (stopJodaTimeFixDate - startJodaTimeFixDate) + "ms, average: " + ((stopJodaTimeFixDate - startJodaTimeFixDate) / (numberOfLoops * 1D)));
 
-        final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'kk:mm:ss");
+        final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
         final long startJodaTimeRandomDate = System.currentTimeMillis();
         for (final String randomDate : randomDates) {
             dateTimeFormatter.parseDateTime(randomDate).toDate();

@@ -1,4 +1,4 @@
-package simple.n.fast;
+package simple.n.fast.date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,6 +15,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import simple.n.fast.date.DateFormatter;
 
 public class DateFormatterTest {
 

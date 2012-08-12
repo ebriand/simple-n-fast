@@ -1,4 +1,4 @@
-package simple.n.fast;
+package simple.n.fast.date;
 
 import java.util.Date;
 import java.util.TimeZone;
