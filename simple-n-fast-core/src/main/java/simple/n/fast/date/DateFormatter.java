@@ -43,7 +43,7 @@ public class DateFormatter {
         } else {
             dayString = days[(int) ((pDateMillis - yearsMillis[year]) / (86400000L))];
         }
-        return years[year] + dayString;
+        return new StringBuilder(10).append(years[year]).append(dayString).toString();
     }
 
     public static String formatISODateTime(final Date pDateTime) {
@@ -64,11 +64,11 @@ public class DateFormatter {
         } else {
             dayString = days[(int) (dayMillis / (86400000L))];
         }
-        long hourMillis = dayMillis % 86400000L;
+        final long hourMillis = dayMillis % 86400000L;
         final int hour = (int) hourMillis / 3600000;
         final int minuteMillis = (int) hourMillis % 3600000;
         final int minute = minuteMillis / 60000;
         final int second = (minuteMillis % 60000) / 1000;
-        return new StringBuilder(years[year]).append(dayString).append('T').append(hoursAndminutesAndSeconds[hour]).append(':').append(hoursAndminutesAndSeconds[minute]).append(':').append(hoursAndminutesAndSeconds[second]).toString();
+        return new StringBuilder(19).append(years[year]).append(dayString).append('T').append(hoursAndminutesAndSeconds[hour]).append(':').append(hoursAndminutesAndSeconds[minute]).append(':').append(hoursAndminutesAndSeconds[second]).toString();
     }
 }
