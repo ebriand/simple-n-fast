@@ -17,7 +17,7 @@ public class XmlTransform {
         try {
             prettify(new StringReader(pXml), stringWriter);
         } catch (final IOException e) {
-            // cannot happen here.
+            // Cannot happen here, StringWriter doesn't throw IOException in its write implementation.
         }
         return stringWriter.toString();
     }
@@ -62,7 +62,7 @@ public class XmlTransform {
                         pWriter.write(nextCharacter.nonBlankChar);
                         pWriter.write(entityChars);
                         writeRaw(pReader, pWriter, '>');
-                        pWriter.write("\n");
+                        pWriter.write('\n');
                     }
                     character.nonBlankChar = -1;
                     parseToNextNonBlankChar(pReader, nextCharacter);
@@ -71,7 +71,7 @@ public class XmlTransform {
                     pWriter.write(character.nonBlankChar);
                     pWriter.write(nextCharacter.nonBlankChar);
                     writeRaw(pReader, pWriter, '?', '>');
-                    pWriter.write("\n");
+                    pWriter.write('\n');
                     character.nonBlankChar = -1;
                     parseToNextNonBlankChar(pReader, nextCharacter);
                     inNode = false;
@@ -151,14 +151,10 @@ public class XmlTransform {
         }
     }
 
-    private static boolean isBlankCharacter(final int pCharacter) {
-        return (pCharacter == -1) || (pCharacter == 32) || (pCharacter == 9) || (pCharacter == 10);
-    }
-
     private static void parseToNextNonBlankChar(final Reader pReader, final ParseResult pParseResult) throws IOException {
         pParseResult.nonBlankChar = pReader.read();
         pParseResult.skippedBlankChars.setLength(0);
-        while ((pParseResult.nonBlankChar != -1) && (isBlankCharacter(pParseResult.nonBlankChar))) {
+        while ((pParseResult.nonBlankChar != -1) && ((pParseResult.nonBlankChar == 32) || (pParseResult.nonBlankChar == 9) || (pParseResult.nonBlankChar == 10))) {
             pParseResult.skippedBlankChars.append((char) pParseResult.nonBlankChar);
             pParseResult.nonBlankChar = pReader.read();
         }
