@@ -61,9 +61,9 @@ public class DateFormatter {
         }
         final char[] dayString;
         if (leapYears[year]) {
-            dayString = daysInLeapYear[(int) ((pDateMillis - yearsMillis[year]) / (86400000L))];
+            dayString = daysInLeapYear[(int) ((pDateMillis - yearsMillis[year]) / 86400000L)];
         } else {
-            dayString = days[(int) ((pDateMillis - yearsMillis[year]) / (86400000L))];
+            dayString = days[(int) ((pDateMillis - yearsMillis[year]) / 86400000L)];
         }
         final char[] yearChars = years[year];
         final char[] formattedDate = { yearChars[0], yearChars[1], yearChars[2], yearChars[3], '-', dayString[0], dayString[1], '-', dayString[2], dayString[3] };

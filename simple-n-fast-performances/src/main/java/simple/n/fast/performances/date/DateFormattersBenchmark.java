@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
+import org.apache.commons.lang3.time.FastDateFormat;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -22,9 +23,13 @@ public class DateFormattersBenchmark extends SimpleBenchmark {
 
     private static String DATE_TIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
-    final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern(DATE_PATTERN);
+    private final DateTimeFormatter dateFormatter = DateTimeFormat.forPattern(DATE_PATTERN);
 
-    final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_TIME_PATTERN);
+    private final DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_TIME_PATTERN);
+
+    private final FastDateFormat fastDateFormat = FastDateFormat.getInstance(DATE_PATTERN);
+
+    private final FastDateFormat fastDateTimeFormat = FastDateFormat.getInstance(DATE_TIME_PATTERN);
 
     @Param("100000")
     private int size;
@@ -96,10 +101,26 @@ public class DateFormattersBenchmark extends SimpleBenchmark {
         }
     }
 
-    public void timeJodaTimeDate(final int reps) {
+    public void timeJodaTimeRandomDate(final int reps) {
         for (int i = 0; i < reps; i++) {
             for (final DateTime randomDate : randomDatetimes) {
                 dateTimeFormatter.print(randomDate);
+            }
+        }
+    }
+
+    public void timeFastDateFormatFixDate(final int reps) {
+        for (int i = 0; i < reps; i++) {
+            for (final Date randomDate : randomDates) {
+                fastDateFormat.format(fixDate);
+            }
+        }
+    }
+
+    public void timeFastDateFormateRandomDate(final int reps) {
+        for (int i = 0; i < reps; i++) {
+            for (final Date randomDate : randomDates) {
+                fastDateTimeFormat.format(randomDate);
             }
         }
     }

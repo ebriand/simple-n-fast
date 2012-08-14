@@ -3,7 +3,7 @@ package simple.n.fast.date;
 import java.util.Date;
 import java.util.TimeZone;
 
-public final class DateParser {
+public class DateParser {
 
     private static TimeZone DEFAULT_TIME_ZONE = TimeZone.getDefault();
 

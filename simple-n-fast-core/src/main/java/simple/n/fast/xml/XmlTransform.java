@@ -22,6 +22,86 @@ public class XmlTransform {
         return stringWriter.toString();
     }
 
+    public static String unprettify(final String pXml) {
+        final StringWriter stringWriter = new StringWriter(pXml.length());
+        try {
+            unprettify(new StringReader(pXml), stringWriter);
+        } catch (final IOException e) {
+            // Cannot happen here, StringWriter doesn't throw IOException in its write implementation.
+        }
+        return stringWriter.toString();
+    }
+
+    public static void unprettify(final Reader pReader, final Writer pWriter) throws IOException {
+        boolean textAfterLastNode = false;
+        boolean inNode = false;
+        int previousCharacter = -1;
+        final ParseResult character = new ParseResult();
+        parseToNextNonBlankChar(pReader, character);
+        final ParseResult nextCharacter = new ParseResult();
+        parseToNextNonBlankChar(pReader, nextCharacter);
+        final char[] entityChars = new char[7];
+        while (character.nonBlankChar != -1) {
+            if (character.nonBlankChar == 60) {
+                if ((nextCharacter.nonBlankChar == 47)) {
+                    inNode = true;
+                    textAfterLastNode = false;
+                } else if ((nextCharacter.nonBlankChar == 33)) {
+                    pReader.read(entityChars, 0, 7);
+                    if (arraysEquals(CDATA_ENTITY, entityChars)) {
+                        pWriter.write(character.nonBlankChar);
+                        pWriter.write(nextCharacter.nonBlankChar);
+                        pWriter.write(entityChars);
+                        writeRaw(pReader, pWriter, ']', new char[] { ']', '>' });
+                        textAfterLastNode = true;
+                    } else if (('-' == entityChars[0]) && ('-' == entityChars[1])) {
+                        pWriter.write(character.nonBlankChar);
+                        pWriter.write(nextCharacter.nonBlankChar);
+                        pWriter.write(entityChars);
+                        writeRaw(pReader, pWriter, '-', new char[] { '-', '>' });
+                    } else if (arraysEquals(DOCTYPE_ENTITY, entityChars)) {
+                        pWriter.write(character.nonBlankChar);
+                        pWriter.write(nextCharacter.nonBlankChar);
+                        pWriter.write(entityChars);
+                        writeRaw(pReader, pWriter, '>');
+                    }
+                    character.nonBlankChar = -1;
+                    parseToNextNonBlankChar(pReader, nextCharacter);
+                    inNode = false;
+                } else if ((nextCharacter.nonBlankChar == 63)) {
+                    pWriter.write(character.nonBlankChar);
+                    pWriter.write(nextCharacter.nonBlankChar);
+                    writeRaw(pReader, pWriter, '?', '>');
+                    character.nonBlankChar = -1;
+                    parseToNextNonBlankChar(pReader, nextCharacter);
+                    inNode = false;
+                } else if (!textAfterLastNode) {
+                    inNode = true;
+                    textAfterLastNode = false;
+                }
+
+            } else {
+                if (inNode && (character.nonBlankChar == 62)) {
+                    inNode = false;
+                } else if (!inNode) {
+                    textAfterLastNode = true;
+                    pWriter.write(character.skippedBlankChars.toString());
+                }
+            }
+            if ((character.nonBlankChar != 60) && (character.nonBlankChar != 47) && (previousCharacter != 60) && (previousCharacter != 47) && (inNode) && (character.skippedBlankChars.length() != 0)) {
+                pWriter.write(' ');
+            }
+            if (character.nonBlankChar != -1) {
+                pWriter.write(character.nonBlankChar);
+            }
+            previousCharacter = character.nonBlankChar;
+            character.nonBlankChar = nextCharacter.nonBlankChar;
+            character.skippedBlankChars.setLength(0);
+            character.skippedBlankChars.append(nextCharacter.skippedBlankChars);
+            parseToNextNonBlankChar(pReader, nextCharacter);
+        }
+    }
+
     public static void prettify(final Reader pReader, final Writer pWriter) throws IOException {
         int level = 0;
         boolean previousNodeWasClosing = false;
@@ -175,4 +255,5 @@ public class XmlTransform {
 
         StringBuilder skippedBlankChars = new StringBuilder(256);
     }
+
 }

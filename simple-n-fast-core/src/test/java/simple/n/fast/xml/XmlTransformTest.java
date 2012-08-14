@@ -223,4 +223,91 @@ public class XmlTransformTest {
         Assert.assertEquals("<?xml version=\"1.0\" ?>\n" +
                 "<blah2>blah</blah2>", preffitiedXml);
     }
+
+    @Test
+    public void unprettifyTest() {
+        final String xml = "<blah>\n" +
+                "    <foo>bar</foo>\n" +
+                "    <blahblah>\n" +
+                "        <blah1>\n" +
+                "            <blah2>blah</blah2>\n" +
+                "        </blah1>\n" +
+                "    </blahblah>\n" +
+                "</blah>";
+        final String unpreffitiedXml = XmlTransform.unprettify(xml);
+        Assert.assertEquals("<blah><foo>bar</foo><blahblah><blah1><blah2>blah</blah2></blah1></blahblah></blah>", unpreffitiedXml);
+    }
+
+    @Test
+    public void unprettifyTest2() {
+        final String xml = "<blah>\n" +
+                "    <foo>bar</foo>\n" +
+                "    <blahblah\t\t>\n" +
+                "        <blah1>\n" +
+                "            <blah2   >blah</blah2>\n" +
+                "        </blah1>\n" +
+                "      <  /      blahblah>\n" +
+                "</blah>";
+        final String unpreffitiedXml = XmlTransform.unprettify(xml);
+        Assert.assertEquals("<blah><foo>bar</foo><blahblah><blah1><blah2>blah</blah2></blah1></blahblah></blah>", unpreffitiedXml);
+    }
+
+    @Test
+    public void unprettifyTest3() {
+        final String xml = "<blah>\n" +
+                "    <foo>bar\t</foo>\n" +
+                "    <blahblah>\n" +
+                "        <blah1>\n" +
+                "            <blah2>blah</blah2>\n" +
+                "        < /\tblah1>\n" +
+                "    </blahblah>\n" +
+                "</blah>";
+        final String unpreffitiedXml = XmlTransform.unprettify(xml);
+        Assert.assertEquals("<blah><foo>bar</foo><blahblah><blah1><blah2>blah</blah2></blah1></blahblah></blah>", unpreffitiedXml);
+    }
+
+    @Test
+    public void unprettifyTest4() {
+        final String xml = "<?xml version=\"1.0\" ?>\n" +
+                "<!DOCTYPE blah SYSTEM \"blah.dtd\">\n" +
+                "<blah blah=\"true\">\n" +
+                "    <!--baoiha\n" +
+                "biohbioh -->\n" +
+                "    <foo/>\n" +
+                "    <blahblah>\n" +
+                "        <blah1>\n" +
+                "            <blah2 truc=\"blah blah\"><![CDATA[blah\t\t\nblah]]></blah2>\n" +
+                "        </blah1>\n" +
+                "    </blahblah>\n" +
+                "</blah>";
+        final String unpreffitiedXml = XmlTransform.unprettify(xml);
+        Assert.assertEquals("<?xml version=\"1.0\" ?><!DOCTYPE blah SYSTEM \"blah.dtd\"><blah blah=\"true\"><!--baoiha\nbiohbioh --><foo/><blahblah><blah1><blah2 truc=\"blah blah\"><![CDATA[blah\t\t\nblah]]></blah2></blah1></blahblah></blah>", unpreffitiedXml);
+    }
+
+    @Test
+    public void unprettifyTest5() {
+        final String xml = "<?xml version=\"1.0\" ?>\n" +
+                "<!DOCTYPE blah SYSTEM \"blah.dtd\">\n" +
+                "<blah blah=\"true\"\t>\n" +
+                "    <!--baoiha\n" +
+                "biohbioh -->\n" +
+                "    <foo/\t\t>\n" +
+                "    <bar></bar>\n" +
+                "    <\nblahblah>\n" +
+                "        <\tblah1>\n" +
+                "            <blah2\ntruc=\"blah blah\"><![CDATA[blah\t\t\nblah]]></blah2>\n" +
+                "        < /\tblah1>\n" +
+                "    </blahblah>\n" +
+                "</blah>";
+        final String unpreffitiedXml = XmlTransform.unprettify(xml);
+        Assert.assertEquals("<?xml version=\"1.0\" ?><!DOCTYPE blah SYSTEM \"blah.dtd\"><blah blah=\"true\"><!--baoiha\nbiohbioh --><foo/><bar></bar><blahblah><blah1><blah2 truc=\"blah blah\"><![CDATA[blah\t\t\nblah]]></blah2></blah1></blahblah></blah>", unpreffitiedXml);
+    }
+
+    @Test
+    public void unprettifyTest6() {
+        final String xml = "<?xml version=\"1.0\" ?>\n" +
+                "<blah2>blah</blah2>";
+        final String unpreffitiedXml = XmlTransform.unprettify(xml);
+        Assert.assertEquals("<?xml version=\"1.0\" ?><blah2>blah</blah2>", unpreffitiedXml);
+    }
 }
