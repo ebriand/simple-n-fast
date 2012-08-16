@@ -1,4 +1,4 @@
-package simple.n.fast.performances.date;
+package simple.n.fast.benchmarks.date;
 
 import com.google.caliper.Param;
 import com.google.caliper.Runner;

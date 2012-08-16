@@ -1,4 +1,4 @@
-package simple.n.fast.performances.xml;
+package simple.n.fast.benchmarks.xml;
 
 import java.io.IOException;
 import java.io.StringReader;

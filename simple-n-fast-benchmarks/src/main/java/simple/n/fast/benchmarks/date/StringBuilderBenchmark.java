@@ -1,4 +1,4 @@
-package simple.n.fast.performances.date;
+package simple.n.fast.benchmarks.date;
 
 import com.google.caliper.Param;
 import com.google.caliper.Runner;
@@ -33,29 +33,17 @@ public class StringBuilderBenchmark extends SimpleBenchmark {
     }
 
     public String timeCharArray(final int reps) {
+
         String result = null;
         for (int i = 0; i < reps; i++) {
             for (int j = 0; j < size; j++) {
-                final char[] date = new char[19];
-                date[0] = '1';
-                date[1] = '9';
-                date[2] = '8';
-                date[3] = '2';
-                date[4] = '-';
-                date[5] = '0';
-                date[6] = '2';
-                date[7] = '-';
-                date[8] = '0';
-                date[9] = '2';
-                date[10] = 'T';
-                date[11] = '1';
-                date[12] = '8';
-                date[13] = ':';
-                date[14] = '1';
-                date[15] = '5';
-                date[16] = ':';
-                date[17] = '3';
-                date[18] = '8';
+                final char[] year = { '1', '9', '8', '2' };
+                final char[] month = { '0', '4' };
+                final char[] day = { '0', '2' };
+                final char[] hour = { '1', '8' };
+                final char[] minute = { '1', '5' };
+                final char[] second = { '3', '8' };
+                final char[] date = { year[0], year[1], year[2], year[3], '-', month[0], month[1], '-', day[0], day[1], 'T', hour[0], hour[1], ':', minute[0], minute[1], ':', second[0], second[1] };
                 result = new String(date);
             }
         }

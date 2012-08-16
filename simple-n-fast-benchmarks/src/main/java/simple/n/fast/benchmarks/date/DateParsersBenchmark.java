@@ -1,4 +1,4 @@
-package simple.n.fast.performances.date;
+package simple.n.fast.benchmarks.date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

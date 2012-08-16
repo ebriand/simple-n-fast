@@ -8,7 +8,7 @@
 	<modules>
 		<module>simple-n-fast-core</module>
 		<module>simple-n-fast-generators</module>
-		<module>simple-n-fast-performances</module>
+		<module>simple-n-fast-benchmarks</module>
 	</modules>
 	<build>
 		<plugins>

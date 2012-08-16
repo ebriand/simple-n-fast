@@ -5,7 +5,7 @@
 		<artifactId>simple-n-fast-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>simple-n-fast-performances</artifactId>
+	<artifactId>simple-n-fast-benchmarks</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>simple-n-fast</groupId>
